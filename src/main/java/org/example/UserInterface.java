@@ -1,6 +1,5 @@
 package org.example;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -9,7 +8,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class Main {
+public class UserInterface {
 
     public static JSONObject getData(String url) throws JSONException, IOException, InterruptedException {
 
@@ -49,7 +48,7 @@ public class Main {
         return profit;
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException, JSONException {
+    public static void main(String[] args) throws Exception {
 
         String binanceApi = "";
         String binanceSecret = "";

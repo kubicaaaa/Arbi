@@ -14,34 +14,21 @@ public class Program {
         this.bitgetApi = bitgetApi;
         this.bitgetPassphrase = bitgetPassphrase;
         this.bitgetSecret = bitgetSecret;
+
     }
 
-    public void start(){
-        /*
-            Main logic:
-            1.
-            Buying at cheaper exchange and transfering assets to more expensive to sell.
-            Next withdrawal USDT to cheaper exchange to make transaction again.
-         */
-    }
-
-    public String getBinanceApi() {
-        return binanceApi;
-    }
-
-    public String getBinanceSecret() {
-        return binanceSecret;
-    }
-
-    public String getBitgetApi() {
-        return bitgetApi;
-    }
-
-    public String getBitgetPassphrase() {
-        return bitgetPassphrase;
-    }
-
-    public String getBitgetSecret() {
-        return bitgetSecret;
+    public void start() throws Exception {
+        BitgetInterface bitget = new BitgetInterface(bitgetApi, bitgetSecret, bitgetPassphrase);
+        BinanceInterface binance = new BinanceInterface(binanceApi, binanceSecret);
+        binance.getBalance(); // USDT BALANCE
+        binance.placeOrder(); // BUYING
+        binance.getBalance(); // ASSET BALANCE
+        binance.withdraw(); // ASSET WITHDRAWAL
+        Thread.sleep(60000);
+        bitget.getBalance(); //  ASSET BALANCE
+        bitget.placeOrder(); // SELLING
+        bitget.getBalance(); // USDT BALANCE
+        bitget.withdraw(); // USDT WITHDRAWAL
+        Thread.sleep(60000);
     }
 }
