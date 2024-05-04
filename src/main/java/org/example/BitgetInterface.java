@@ -43,41 +43,44 @@ public class BitgetInterface {
     }
 
     public void getBalance() throws Exception {
-        Map<String, String> paramMap = new HashMap();
-        paramMap.put("symbol", "BTCUSDT_UMCBL");
-        paramMap.put("marginCoin", "USDT");
-        paramMap.put("side", "open_long");
-        paramMap.put("orderType", "limit");
-        paramMap.put("price", "27012.1");
-        paramMap.put("size", "0.01");
-        paramMap.put("timInForceValue", "normal");
-        ResponseResult result = bitgetRestClient.bitget().v2().spotAccount().assets(paramMap);
+        Map<String, String> params = new HashMap();
+        params.put("symbol", "BTCUSDT_UMCBL");
+        params.put("marginCoin", "USDT");
+        params.put("side", "open_long");
+        params.put("orderType", "limit");
+        params.put("price", "27012.1");
+        params.put("size", "0.01");
+        params.put("timInForceValue", "normal");
+
+        ResponseResult result = bitgetRestClient.bitget().v2().spotAccount().assets(params);
         System.out.println(new JSONObject(String.valueOf(result)));
     }
 
     public void withdraw() throws Exception {
-        Map<String, String> paramMap = new HashMap();
-        paramMap.put("symbol", "BTCUSDT_UMCBL");
-        paramMap.put("marginCoin", "USDT");
-        paramMap.put("side", "open_long");
-        paramMap.put("orderType", "limit");
-        paramMap.put("price", "27012.1");
-        paramMap.put("size", "0.01");
-        paramMap.put("timInForceValue", "normal");
-        ResponseResult result = bitgetRestClient.bitget().v2().spotWallet().withdrawal(paramMap);
+        Map<String, String> params = new HashMap();
+        params.put("symbol", "BTCUSDT_UMCBL");
+        params.put("marginCoin", "USDT");
+        params.put("side", "open_long");
+        params.put("orderType", "limit");
+        params.put("price", "27012.1");
+        params.put("size", "0.01");
+        params.put("timInForceValue", "normal");
+
+        ResponseResult result = bitgetRestClient.bitget().v2().spotWallet().withdrawal(params);
         System.out.println(new JSONObject(String.valueOf(result)));
     }
 
     public void placeOrder() throws Exception {
-        Map<String, String> paramMap = new HashMap();
-        paramMap.put("symbol", "BTCUSDT_UMCBL");
-        paramMap.put("marginCoin", "USDT");
-        paramMap.put("side", "open_long");
-        paramMap.put("orderType", "limit");
-        paramMap.put("price", "27012.1");
-        paramMap.put("size", "0.01");
-        paramMap.put("timInForceValue", "normal");
-        ResponseResult result = bitgetRestClient.bitget().v1().mixOrder().placeOrder(paramMap);
+        Map<String, String> params = new HashMap();
+        params.put("symbol", "BTCUSDT_UMCBL");
+        params.put("marginCoin", "USDT");
+        params.put("side", "open_long");
+        params.put("orderType", "limit");
+        params.put("price", "27012.1");
+        params.put("size", "0.01");
+        params.put("timInForceValue", "normal");
+
+        ResponseResult result = bitgetRestClient.bitget().v1().mixOrder().placeOrder(params);
         System.out.println(new JSONObject(String.valueOf(result)));
     }
 }
