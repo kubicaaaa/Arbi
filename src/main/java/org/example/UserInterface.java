@@ -1,4 +1,4 @@
-package org.example;
+package example;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,19 +50,25 @@ public class UserInterface {
 
     public static void main(String[] args) throws Exception {
 
-        String binanceApi = "";
-        String binanceSecret = "";
-        String bitgetApi = "";
-        String bitgetSecret = "";
-        String bitgetPassphrase = "";
-        Program app = new Program(binanceApi, binanceSecret, bitgetApi, bitgetSecret, bitgetPassphrase);
+        String asset = "IOTX";
+        String binanceApi = "bxycYuVHCyXhV9DmrmBIlbhiEMyDnGdoejam7nmtsVP3gXl2mTtAcT81rTv0zTmM";
+        String binanceSecret = "aszXOFFh5lxCpl8Q4noypIHCRQDHVZAdxwP4GemPa4ttiDhskmvSrzJjCn6irVGV";
+        String bitgetApi = "bg_edf992931da5f6ac58a39466b99763df";
+        String bitgetSecret = "51de7f3c3969ceb9469556f4a6b9b0b097b02dcfe8307c33666a9b4590438944";
+        String bitgetPassphrase = "fabiaN342196";
+        String binanceAssetAddress = "";
+        String binanceUsdtAddress = "0x78b7ce5c646eed436badf902838c7222221c6bd2"; // BEP20
+        String bitgetAssetAddress = "";
+        String bitgetUsdtAddress = ""; // AVAXC
+        Program app = new Program(asset, binanceApi, binanceSecret, bitgetApi, bitgetSecret, bitgetPassphrase,
+                binanceAssetAddress, binanceUsdtAddress, bitgetAssetAddress, bitgetUsdtAddress);
 
         while (true) {
             // BINANCE API request
-            JSONObject binanceData = getData("https://api.binance.com/api/v3/ticker/bookTicker?symbol=IOTXUSDT");
+            JSONObject binanceData = getData("https://api.binance.com/api/v3/ticker/bookTicker?symbol=" + asset + "USDT");
 
             // BITGET API request
-            JSONObject bitgetResponse = getData("https://api.bitget.com/api/spot/v1/market/ticker?symbol=IOTXUSDT_SPBL");
+            JSONObject bitgetResponse = getData("https://api.bitget.com/api/spot/v1/market/ticker?symbol=" + asset + "USDT_SPBL");
             JSONObject bitgetData = bitgetResponse.getJSONObject("data");
 
             // Selling
@@ -81,6 +87,8 @@ public class UserInterface {
 
             if (profit > 0) {
                 System.out.println("Starting...");
+                app.setAskPrice(binanceAsk);
+                app.setBidPrice(bitgetBid);
                 app.start();
             }
 
