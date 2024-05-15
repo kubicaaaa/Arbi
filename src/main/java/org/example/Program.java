@@ -1,4 +1,4 @@
-package example;
+package org.example;
 
 public class Program {
 
@@ -43,23 +43,22 @@ public class Program {
         BinanceInterface binance = new BinanceInterface(binanceApi, binanceSecret);
 
         binance.getBalance("USDT"); // USDT BALANCE
-        double amount = binance.getBalance("USDT") / askPrice;
 
-        binance.placeOrder(asset, "BUY", amount, askPrice); // BUYING
+        binance.placeOrder("IOTX", "BUY", 0, askPrice); // BUYING
 
-        binance.getBalance(asset); // ASSET BALANCE
+        binance.getBalance("IOTX"); // ASSET BALANCE
 
-        binance.withdraw("","", 0); // ASSET WITHDRAWAL
+        binance.withdraw("IOTX", "IOTX", bitgetAsset, 0); // ASSET WITHDRAWAL
 
-        Thread.sleep(60000); // 60 seconds break to let transaction arrive
+        Thread.sleep(180000); // 3 minutes break to let transaction arrive
 
-        bitget.getBalance(asset); //  ASSET BALANCE
+        bitget.getBalance("IOTX"); //  ASSET BALANCE
 
 
         bitget.placeOrder(asset, "sell", "", ""); // SELLING
         bitget.getBalance("USDT"); // USDT BALANCE
         bitget.withdraw("USDT", binanceUsdt, "bep20", ""); // USDT WITHDRAWAL
 
-        Thread.sleep(60000); // 60 seconds break to let transaction arrive
+        Thread.sleep(180000); // 3 minutes break to let transaction arrive
     }
 }

@@ -1,4 +1,4 @@
-package example;
+package org.example;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,30 +22,27 @@ public class UserInterface {
         return new JSONObject(response.body());
     }
 
-    public static float getProfit(float askPrice, float bidPrice, int value) {
+    // Calculating bid price to make every transaction profitable
+    public static double getBidPrice(double askPrice, int value) {
 
-        // USDT withdrawal fees
-        float binanceUsdtFee = 0.14f;
-        float bitgetUsdtFee = 0.29f;
+        // Fees
+        double bitgetUsdtFee = 0.29;
+        double assetBinanceFee = 0.1;
+        double assetBitgetFee = 0.1;
+        double binanceTakerFee = 0.00075 * value;
+        double bitgetTakerFee = 0.00080 * value;
 
-        // Asset withdrawal fees
-        float assetBinanceFee = 0;
-        float assetBitgetFee = 0;
+        double fees = bitgetUsdtFee + assetBinanceFee + assetBitgetFee + binanceTakerFee + bitgetTakerFee;
+        System.out.println(fees);
 
-        // SPOT fees
-        float binanceTakerFee = 0.00075f * value;
-        float bitgetTakerFee = 0.00080f * value;
+        double buyQuantity = value / askPrice;
+        System.out.println(buyQuantity);
 
-        // Calculating profit (difference between exchanges incl. withdrawal fees and maker/taker)
-        float buyQuantity = value / askPrice;
-        float sellQuantity = value / bidPrice;
-        float profit = bidPrice * sellQuantity - askPrice * buyQuantity;
-        profit -= bitgetUsdtFee;
-        profit -= binanceTakerFee + bitgetTakerFee;
-        profit -= assetBinanceFee * askPrice + assetBitgetFee * bidPrice;
-        System.out.println(profit);
+        double bidPrice = (value + 0.1f + fees) / buyQuantity;
 
-        return profit;
+        System.out.println(bidPrice);
+
+        return bidPrice;
     }
 
     public static void main(String[] args) throws Exception {
@@ -56,10 +53,10 @@ public class UserInterface {
         String bitgetApi = "bg_edf992931da5f6ac58a39466b99763df";
         String bitgetSecret = "51de7f3c3969ceb9469556f4a6b9b0b097b02dcfe8307c33666a9b4590438944";
         String bitgetPassphrase = "fabiaN342196";
-        String binanceAssetAddress = "";
+        String binanceAssetAddress = "io14zwq9lksqg8zavywxfurzudf8rwwr4yjj6w80e";
         String binanceUsdtAddress = "0x78b7ce5c646eed436badf902838c7222221c6bd2"; // BEP20
-        String bitgetAssetAddress = "";
-        String bitgetUsdtAddress = ""; // AVAXC
+        String bitgetAssetAddress = "io13sv50j2fu8jzfessv7t2e3mp0w43p6wpf30zls";
+        String bitgetUsdtAddress = "0x604867d76103c22d3aa5c7ec06f4ae37f488ef3e"; // AVAXC
         Program app = new Program(asset, binanceApi, binanceSecret, bitgetApi, bitgetSecret, bitgetPassphrase,
                 binanceAssetAddress, binanceUsdtAddress, bitgetAssetAddress, bitgetUsdtAddress);
 
@@ -67,30 +64,19 @@ public class UserInterface {
             // BINANCE API request
             JSONObject binanceData = getData("https://api.binance.com/api/v3/ticker/bookTicker?symbol=" + asset + "USDT");
 
-            // BITGET API request
-            JSONObject bitgetResponse = getData("https://api.bitget.com/api/spot/v1/market/ticker?symbol=" + asset + "USDT_SPBL");
-            JSONObject bitgetData = bitgetResponse.getJSONObject("data");
-
-            // Selling
-            double binanceBid = binanceData.getDouble("bidPrice");
-            double bitgetBid = bitgetData.getDouble("sellOne");
             // Buying
-            double bitgetAsk = bitgetData.getDouble("buyOne");
             double binanceAsk = binanceData.getDouble("askPrice");
 
-            System.out.println("Bitget BUY price: " + bitgetAsk);
+            // Selling
+            double bitgetBid = getBidPrice(binanceAsk, 100);
+
             System.out.println("Binance BUY price: " + binanceAsk);
             System.out.println("Bitget SELL price: " + bitgetBid);
-            System.out.println("Binance SELL price: " + binanceBid);
 
-            float profit = getProfit((float) binanceAsk, (float) bitgetBid, 200);
-
-            if (profit > 0) {
-                System.out.println("Starting...");
-                app.setAskPrice(binanceAsk);
-                app.setBidPrice(bitgetBid);
-                app.start();
-            }
+            System.out.println("Starting...");
+            app.setAskPrice(binanceAsk);
+            app.setBidPrice(bitgetBid);
+            app.start();
 
             Thread.sleep(5000);
         }

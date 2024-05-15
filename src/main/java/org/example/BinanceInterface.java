@@ -1,4 +1,4 @@
-package example;
+package org.example;
 
 import com.binance.connector.client.SpotClient;
 import com.binance.connector.client.impl.SpotClientImpl;
@@ -22,39 +22,39 @@ public class BinanceInterface {
        return new SpotClientImpl(apiKey, secretKey);
     }
 
-    public double getBalance(String asset){
+    public void getBalance(String asset){
         Map<String,Object> params = new LinkedHashMap<String,Object>();
-        params.put("coin", asset);
+        params.put("asset", asset);
         String timestamp = String.valueOf(Instant.now().toEpochMilli());
         params.put("timestamp", timestamp);
 
         String result = client.createWallet().getUserAsset(params);
         System.out.println(result);
-
-        return 0;
     }
 
-    public void withdraw(String coin, String address, double amount){
-        Map<String,Object> params = new LinkedHashMap<String,Object>();
-        params.put("coin",coin);
-        params.put("address",address);
-        params.put("amount",amount);
-        params.put("timestamp", "GTC");
+    public void placeOrder(String asset, String side, double amount, double price){
+        Map<String,Object> parameters = new LinkedHashMap<>();
+        parameters.put("symbol", asset + "USDT");
+        parameters.put("side", side);
+        parameters.put("type", "LIMIT");
+        parameters.put("timeInForce", "GTC");
+        parameters.put("quantity", amount);
+        parameters.put("price", price);
 
-        String result = client.createWallet().withdraw(params);
+        String result = client.createTrade().newOrder(parameters);
         System.out.println(result);
     }
 
-    public void placeOrder(String symbol, String side, double amount, double price){
-        Map<String,Object> parameters = new LinkedHashMap<>();
-        parameters.put("symbol","BTCUSDT");
-        parameters.put("side", "SELL");
-        parameters.put("type", "LIMIT");
-        parameters.put("timeInForce", "GTC");
-        parameters.put("quantity", 0.01);
-        parameters.put("price", 9500);
+    public void withdraw(String coin, String network, String address, double amount){ // USDT transfer
+        Map<String,Object> params = new LinkedHashMap<String,Object>();
+        params.put("coin",coin);
+        params.put("network",network);
+        params.put("address",address);
+        params.put("amount",amount);
+        String timestamp = String.valueOf(Instant.now().toEpochMilli());
+        params.put("timestamp", timestamp);
 
-        String result = client.createTrade().testNewOrder(parameters);
+        String result = client.createWallet().withdraw(params);
         System.out.println(result);
     }
 }

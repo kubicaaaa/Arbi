@@ -1,4 +1,4 @@
-package example;
+package org.example;
 
 import com.bitget.openapi.common.client.BitgetRestClient;
 import com.bitget.openapi.common.domain.ClientParameter;
@@ -7,7 +7,6 @@ import com.bitget.openapi.dto.response.ResponseResult;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
-
 import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
