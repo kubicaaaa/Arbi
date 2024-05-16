@@ -33,14 +33,14 @@ public class UserInterface {
         double bitgetTakerFee = 0.00080 * value;
 
         double fees = bitgetUsdtFee + assetBinanceFee + assetBitgetFee + binanceTakerFee + bitgetTakerFee;
-        System.out.println(fees);
+        fees = Math.round(fees * 100) / 100.0;
+
+        System.out.println("Operation fees: " + fees + "$");
 
         double buyQuantity = value / askPrice;
-        System.out.println(buyQuantity);
 
         double bidPrice = (value + 0.1f + fees) / buyQuantity;
-
-        System.out.println(bidPrice);
+        bidPrice = Math.round(bidPrice * 100000) / 100000.0; // rounding to reach proper price format for exchanges
 
         return bidPrice;
     }
@@ -48,17 +48,17 @@ public class UserInterface {
     public static void main(String[] args) throws Exception {
 
         String asset = "IOTX";
+
         String binanceApi = "bxycYuVHCyXhV9DmrmBIlbhiEMyDnGdoejam7nmtsVP3gXl2mTtAcT81rTv0zTmM";
         String binanceSecret = "aszXOFFh5lxCpl8Q4noypIHCRQDHVZAdxwP4GemPa4ttiDhskmvSrzJjCn6irVGV";
         String bitgetApi = "bg_edf992931da5f6ac58a39466b99763df";
         String bitgetSecret = "51de7f3c3969ceb9469556f4a6b9b0b097b02dcfe8307c33666a9b4590438944";
         String bitgetPassphrase = "fabiaN342196";
-        String binanceAssetAddress = "io14zwq9lksqg8zavywxfurzudf8rwwr4yjj6w80e";
         String binanceUsdtAddress = "0x78b7ce5c646eed436badf902838c7222221c6bd2"; // BEP20
         String bitgetAssetAddress = "io13sv50j2fu8jzfessv7t2e3mp0w43p6wpf30zls";
-        String bitgetUsdtAddress = "0x604867d76103c22d3aa5c7ec06f4ae37f488ef3e"; // AVAXC
+
         Program app = new Program(asset, binanceApi, binanceSecret, bitgetApi, bitgetSecret, bitgetPassphrase,
-                binanceAssetAddress, binanceUsdtAddress, bitgetAssetAddress, bitgetUsdtAddress);
+                binanceUsdtAddress, bitgetAssetAddress);
 
         while (true) {
             // BINANCE API request

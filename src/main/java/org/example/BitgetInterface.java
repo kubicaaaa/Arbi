@@ -4,6 +4,8 @@ import com.bitget.openapi.common.client.BitgetRestClient;
 import com.bitget.openapi.common.domain.ClientParameter;
 import com.bitget.openapi.common.enums.SupportedLocaleEnum;
 import com.bitget.openapi.dto.response.ResponseResult;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -42,26 +44,28 @@ public class BitgetInterface {
         return BitgetRestClient.builder().configuration(parameter).build();
     }
 
-    public void getBalance(String asset) throws Exception {
+    public double getBalance(String asset) throws Exception {
         Map<String, String> params = new HashMap();
         params.put("coin", asset);
 
         ResponseResult result = bitgetRestClient.bitget().v2().spotAccount().assets(params);
         String resultAsString = result.getData().toString();
-        System.out.println(resultAsString);
-    }
 
-    public void withdraw(String asset, String address, String chain, String amount) throws Exception {
-        Map<String, String> params = new HashMap();
-        params.put("coin", asset);
-        params.put("transferType", "on_chain");
-        params.put("address", address);
-        params.put("chain", chain);
-        params.put("size", amount);
+        // Convert the string to valid JSON
+        String json = resultAsString.replace("=", "\":\"")
+                .replace(", ", "\", \"")
+                .replace("{", "{\"")
+                .replace("}", "\"}");
 
-        ResponseResult result = bitgetRestClient.bitget().v2().spotWallet().withdrawal(params);
-        String resultAsString = result.getData().toString();
-        System.out.println(resultAsString);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(json);
+        JsonNode firstObject = rootNode.get(0);
+
+        double balance = firstObject.get("available").asDouble();
+        System.out.println("Checking Bitget balance...");
+        System.out.println("Bitget " + asset + " balance: " + balance);
+
+        return balance;
     }
 
     public void placeOrder(String asset, String side, String price, String amount) throws Exception {
@@ -75,6 +79,21 @@ public class BitgetInterface {
 
         ResponseResult result = bitgetRestClient.bitget().v2().spotOrder().placeOrder(params);
         String resultAsString = result.getData().toString();
+        System.out.println("Placing " + side + " order at Bitget to " + side + " " + amount + " " + asset + "...");
+        System.out.println(resultAsString);
+    }
+
+    public void withdraw(String asset, String address, String chain, String amount) throws Exception {
+        Map<String, String> params = new HashMap();
+        params.put("coin", asset);
+        params.put("transferType", "on_chain");
+        params.put("address", address);
+        params.put("chain", chain);
+        params.put("size", amount);
+
+        ResponseResult result = bitgetRestClient.bitget().v2().spotWallet().withdrawal(params);
+        String resultAsString = result.getData().toString();
+        System.out.println("Withdrawing " + amount + " " + asset + " to Binance...");
         System.out.println(resultAsString);
     }
 }

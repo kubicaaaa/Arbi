@@ -8,26 +8,62 @@ public class Program {
     private final String bitgetApi;
     private final String bitgetSecret;
     private final String bitgetPassphrase;
-    private final String binanceAsset;
     private final String binanceUsdt;
     private final String bitgetAsset;
-    private final String bitgetUsdt;
     private double askPrice;
     private double bidPrice;
 
     public Program(String asset, String binanceApi, String binanceSecret, String bitgetApi, String bitgetSecret,
-                   String bitgetPassphrase, String binanceAsset, String binanceUsdt,
-                   String bitgetAsset, String bitgetUsdt) {
+                   String bitgetPassphrase, String binanceUsdt, String bitgetAsset) {
         this.asset = asset;
         this.binanceApi = binanceApi;
         this.binanceSecret = binanceSecret;
         this.bitgetApi = bitgetApi;
         this.bitgetSecret = bitgetSecret;
         this.bitgetPassphrase = bitgetPassphrase;
-        this.binanceAsset = binanceAsset;
         this.binanceUsdt = binanceUsdt;
         this.bitgetAsset = bitgetAsset;
-        this.bitgetUsdt = bitgetUsdt;
+    }
+
+    public void start() throws Exception {
+        BitgetInterface bitget = new BitgetInterface(bitgetApi, bitgetSecret, bitgetPassphrase);
+        BinanceInterface binance = new BinanceInterface(binanceApi, binanceSecret);
+
+        int amount = 0;
+        while (amount < 1) {
+            amount = (int) (binance.getBalance("USDT") / askPrice); // USDT BALANCE
+            Thread.sleep(10000);
+        }
+
+        binance.placeOrder(asset, "BUY", amount, askPrice); // BUYING
+
+        double assetAmount = 0;
+        while (assetAmount < 1) { // CHECKING EVERY 10 SECONDS IF ASSETS ARE BOUGHT
+            assetAmount = binance.getBalance(asset); // ASSET BALANCE
+            Thread.sleep(10000);
+        }
+
+        binance.withdraw(asset, "IOTX", bitgetAsset, assetAmount); // ASSET WITHDRAWAL
+
+        Thread.sleep(180000); // 3 minutes break to let transaction arrive
+
+        int value = 0;
+        while (value < 1) {
+            value = (int) (bitget.getBalance(asset) / bidPrice); //  ASSET BALANCE
+            Thread.sleep(10000);
+        }
+
+        bitget.placeOrder(asset, "sell", "", String.valueOf(value)); // SELLING
+
+        double usdtBalance = 0;
+        while (usdtBalance < 1) {
+            usdtBalance = bitget.getBalance(asset); // USDT BALANCE
+            Thread.sleep(10000);
+        }
+
+        bitget.withdraw(asset, binanceUsdt, "bep20", String.valueOf(usdtBalance)); // USDT WITHDRAWAL
+
+        Thread.sleep(180000); // 3 minutes break to let transaction arrive
     }
 
     public void setAskPrice(double askPrice) {
@@ -36,29 +72,5 @@ public class Program {
 
     public void setBidPrice(double bidPrice) {
         this.bidPrice = bidPrice;
-    }
-
-    public void start() throws Exception {
-        BitgetInterface bitget = new BitgetInterface(bitgetApi, bitgetSecret, bitgetPassphrase);
-        BinanceInterface binance = new BinanceInterface(binanceApi, binanceSecret);
-
-        binance.getBalance("USDT"); // USDT BALANCE
-
-        binance.placeOrder("IOTX", "BUY", 0, askPrice); // BUYING
-
-        binance.getBalance("IOTX"); // ASSET BALANCE
-
-        binance.withdraw("IOTX", "IOTX", bitgetAsset, 0); // ASSET WITHDRAWAL
-
-        Thread.sleep(180000); // 3 minutes break to let transaction arrive
-
-        bitget.getBalance("IOTX"); //  ASSET BALANCE
-
-
-        bitget.placeOrder(asset, "sell", "", ""); // SELLING
-        bitget.getBalance("USDT"); // USDT BALANCE
-        bitget.withdraw("USDT", binanceUsdt, "bep20", ""); // USDT WITHDRAWAL
-
-        Thread.sleep(180000); // 3 minutes break to let transaction arrive
     }
 }

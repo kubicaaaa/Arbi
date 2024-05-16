@@ -5,6 +5,9 @@ import com.binance.connector.client.impl.SpotClientImpl;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BinanceInterface {
 
@@ -22,14 +25,22 @@ public class BinanceInterface {
        return new SpotClientImpl(apiKey, secretKey);
     }
 
-    public void getBalance(String asset){
-        Map<String,Object> params = new LinkedHashMap<String,Object>();
+    public double getBalance(String asset) throws JsonProcessingException {
+        Map<String,Object> params = new LinkedHashMap<>();
         params.put("asset", asset);
         String timestamp = String.valueOf(Instant.now().toEpochMilli());
         params.put("timestamp", timestamp);
 
         String result = client.createWallet().getUserAsset(params);
-        System.out.println(result);
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(result);
+        JsonNode firstObject = rootNode.get(0);
+
+        double balance = firstObject.get("free").asDouble();
+        System.out.println("Checking Binance balance...");
+        System.out.println("Binance " + asset + " balance: " + balance);
+
+        return balance;
     }
 
     public void placeOrder(String asset, String side, double amount, double price){
@@ -42,19 +53,21 @@ public class BinanceInterface {
         parameters.put("price", price);
 
         String result = client.createTrade().newOrder(parameters);
+        System.out.println("Placing " + side + " order at Binance to " + side + " " + amount + " " + asset + "...");
         System.out.println(result);
     }
 
-    public void withdraw(String coin, String network, String address, double amount){ // USDT transfer
+    public void withdraw(String coin, String network, String address, double amount){
         Map<String,Object> params = new LinkedHashMap<String,Object>();
-        params.put("coin",coin);
-        params.put("network",network);
-        params.put("address",address);
-        params.put("amount",amount);
+        params.put("coin", coin);
+        params.put("network", network);
+        params.put("address", address);
+        params.put("amount", amount);
         String timestamp = String.valueOf(Instant.now().toEpochMilli());
         params.put("timestamp", timestamp);
 
         String result = client.createWallet().withdraw(params);
+        System.out.println("Withdrawing " + amount + " " + coin + " to Bitget...");
         System.out.println(result);
     }
 }

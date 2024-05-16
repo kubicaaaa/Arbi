@@ -1,5 +1,4 @@
-package org.example;
-
+import org.example.BitgetInterface;
 import org.testng.annotations.Test;
 
 public class BitgetInterfaceTests {

@@ -1,5 +1,4 @@
-package org.example;
-
+import org.example.BinanceInterface;
 import org.testng.annotations.Test;
 
 public class BinanceInterfaceTests {
