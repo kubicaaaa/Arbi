@@ -1,4 +1,5 @@
-import org.example.BinanceInterface;
+package org.example;
+
 import org.testng.annotations.Test;
 
 public class BinanceInterfaceTests {
@@ -13,7 +14,7 @@ public class BinanceInterfaceTests {
     }
 
     @Test
-    public void placeOrder() throws Exception { // PASSED tylko okragle wartosci 520 zamiast 520.3
+    public void placeOrder() throws Exception { // PASSED
         String asset = "IOTX";
         String api = "bxycYuVHCyXhV9DmrmBIlbhiEMyDnGdoejam7nmtsVP3gXl2mTtAcT81rTv0zTmM";
         String secret = "aszXOFFh5lxCpl8Q4noypIHCRQDHVZAdxwP4GemPa4ttiDhskmvSrzJjCn6irVGV";
