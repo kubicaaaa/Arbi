@@ -45,7 +45,7 @@ public class Program {
 
         binance.withdraw(asset, "IOTX", bitgetAsset, assetAmount); // ASSET WITHDRAWAL
 
-        Thread.sleep(180000); // 3 minutes break to let transaction arrive
+        Thread.sleep(180000); // 3 minutes break to let assets be deposited
 
         int value = 0;
         while (value < 1) {
@@ -63,7 +63,7 @@ public class Program {
 
         bitget.withdraw(asset, binanceUsdt, "bep20", String.valueOf(usdtBalance)); // USDT WITHDRAWAL
 
-        Thread.sleep(180000); // 3 minutes break to let transaction arrive
+        Thread.sleep(180000); // 3 minutes break to let assets be deposited
     }
 
     public void setAskPrice(double askPrice) {

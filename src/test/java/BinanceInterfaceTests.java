@@ -3,32 +3,33 @@ import org.testng.annotations.Test;
 
 public class BinanceInterfaceTests {
     @Test
-    public void getBalance() throws Exception { // PASSED
+    public void getBalance() throws Exception {
         String asset = "IOTX";
-        String api = "bxycYuVHCyXhV9DmrmBIlbhiEMyDnGdoejam7nmtsVP3gXl2mTtAcT81rTv0zTmM";
-        String secret = "aszXOFFh5lxCpl8Q4noypIHCRQDHVZAdxwP4GemPa4ttiDhskmvSrzJjCn6irVGV";
+        String api = "INSERT YOUR BINANCE API";
+        String secret = "INSERT YOUR BINANCE SECRET API";
 
         BinanceInterface bin = new BinanceInterface(api, secret);
         bin.getBalance(asset);
     }
 
     @Test
-    public void placeOrder() throws Exception { // PASSED
+    public void placeOrder() throws Exception {
         String asset = "IOTX";
-        String api = "bxycYuVHCyXhV9DmrmBIlbhiEMyDnGdoejam7nmtsVP3gXl2mTtAcT81rTv0zTmM";
-        String secret = "aszXOFFh5lxCpl8Q4noypIHCRQDHVZAdxwP4GemPa4ttiDhskmvSrzJjCn6irVGV";
+        String api = "INSERT YOUR BINANCE API";
+        String secret = "INSERT YOUR BINANCE SECRET API";
 
         BinanceInterface bin = new BinanceInterface(api, secret);
         bin.placeOrder(asset, "SELL", 520, 0.04892);
     }
 
     @Test
-    public void withdraw() throws Exception { // PASSED
+    public void withdraw() throws Exception {
         String asset = "IOTX";
-        String api = "bxycYuVHCyXhV9DmrmBIlbhiEMyDnGdoejam7nmtsVP3gXl2mTtAcT81rTv0zTmM";
-        String secret = "aszXOFFh5lxCpl8Q4noypIHCRQDHVZAdxwP4GemPa4ttiDhskmvSrzJjCn6irVGV";
+        String api = "INSERT YOUR BINANCE API";
+        String secret = "INSERT YOUR BINANCE SECRET API";
+        String address = "INSERT YOUR WITHDRAWAL ADDRESS";
 
         BinanceInterface bin = new BinanceInterface(api, secret);
-        bin.withdraw(asset, "IOTX" , "io13sv50j2fu8jzfessv7t2e3mp0w43p6wpf30zls", 520.37);
+        bin.withdraw(asset, "IOTX" , address, 520.37);
     }
 }

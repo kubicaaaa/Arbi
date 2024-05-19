@@ -49,13 +49,13 @@ public class UserInterface {
 
         String asset = "IOTX";
 
-        String binanceApi = "bxycYuVHCyXhV9DmrmBIlbhiEMyDnGdoejam7nmtsVP3gXl2mTtAcT81rTv0zTmM";
-        String binanceSecret = "aszXOFFh5lxCpl8Q4noypIHCRQDHVZAdxwP4GemPa4ttiDhskmvSrzJjCn6irVGV";
-        String bitgetApi = "bg_edf992931da5f6ac58a39466b99763df";
-        String bitgetSecret = "51de7f3c3969ceb9469556f4a6b9b0b097b02dcfe8307c33666a9b4590438944";
-        String bitgetPassphrase = "fabiaN342196";
-        String binanceUsdtAddress = "0x78b7ce5c646eed436badf902838c7222221c6bd2"; // BEP20
-        String bitgetAssetAddress = "io13sv50j2fu8jzfessv7t2e3mp0w43p6wpf30zls";
+            String binanceApi = "INSERT YOUR BINANCE API KEY";
+            String binanceSecret = "INSERT YOUR BINANCE SECRET API KEY";
+            String bitgetApi = "INSERT YOUR BITGET API KEY";
+            String bitgetSecret = "INSERT YOUR BITGET SECRET API KEY";
+            String bitgetPassphrase = "INSERT YOUR BITGET PASSPHRASE";
+            String binanceUsdtAddress = "INSERT YOUR BINANCE USDT ADDRESS";
+            String bitgetAssetAddress = "INSERT YOUR BITGET ASSET ADDRESS";
 
         Program app = new Program(asset, binanceApi, binanceSecret, bitgetApi, bitgetSecret, bitgetPassphrase,
                 binanceUsdtAddress, bitgetAssetAddress);
