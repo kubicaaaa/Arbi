@@ -1,10 +1,10 @@
 Arbitrage Trading Bot
 
 
-This is a Java project that implements an arbitrage trading bot between Binance and Bitget cryptocurrency exchanges. The bot buys a specified cryptocurrency on Binance and sells it on Bitget at a higher price, aiming to profit from the price difference between the two exchanges.
+This Java project implements an arbitrage trading bot between Binance and Bitget cryptocurrency exchanges. Arbi buys a specified cryptocurrency on Binance and sells it on Bitget at a higher price, aiming to profit from the price difference between the two exchanges.
 
 
-
+#
 How it Works
 
 
