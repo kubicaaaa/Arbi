@@ -1,4 +1,4 @@
-<h1>Arbi</h1> 
+<h2>Arbi</h2> 
 
 
 This Java project implements an arbitrage trading bot between Binance and Bitget cryptocurrency exchanges. Arbi buys a specified cryptocurrency on Binance and sells it on Bitget at a higher price, aiming to profit from the price difference between the two exchanges.
@@ -8,7 +8,7 @@ This Java project implements an arbitrage trading bot between Binance and Bitget
 ![arbi](https://github.com/kubicaaaa/Arbi/assets/136459875/c5b043da-f32b-49d9-bde7-db68cd1effbc)
 
 #
-How it Works
+<h2>How it Works</h2>
 
 
 The program fetches the current ask price for the specified cryptocurrency from the Binance exchange.
