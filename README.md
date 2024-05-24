@@ -7,7 +7,7 @@ This Java project implements an arbitrage trading bot between Binance and Bitget
 
 ![arbi](https://github.com/kubicaaaa/Arbi/assets/136459875/c5b043da-f32b-49d9-bde7-db68cd1effbc)
 
-#
+
 <h2>How it Works</h2>
 
 
