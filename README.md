@@ -116,8 +116,6 @@ Key dependencies include:
 - OkHttp for HTTP requests
 - Retrofit for API calls
 
-See `pom.xml` for the complete list of dependencies.
-
 ## Limitations
 
 - Requires manual configuration of API credentials
@@ -126,6 +124,4 @@ See `pom.xml` for the complete list of dependencies.
 - Sensitive to network latency and API rate limits
 - Assumes sufficient liquidity on both exchanges
 
-## Support
 
-For questions or issues, please open an issue on the GitHub repository.
